@@ -459,8 +459,8 @@
     <notepad>
       <note>kobis API 호출 
 주간 박스오피스 </note>
-      <xloc>192</xloc>
-      <yloc>48</yloc>
+      <xloc>464</xloc>
+      <yloc>32</yloc>
       <width>96</width>
       <heigth>42</heigth>
       <fontname>.AppleSystemUIFont</fontname>
@@ -480,8 +480,8 @@
     </notepad>
     <notepad>
       <note>JSON 해석 </note>
-      <xloc>336</xloc>
-      <yloc>48</yloc>
+      <xloc>608</xloc>
+      <yloc>32</yloc>
       <width>75</width>
       <heigth>26</heigth>
       <fontname>.AppleSystemUIFont</fontname>
@@ -501,8 +501,8 @@
     </notepad>
     <notepad>
       <note>MariaDB에 저장 </note>
-      <xloc>592</xloc>
-      <yloc>48</yloc>
+      <xloc>864</xloc>
+      <yloc>32</yloc>
       <width>103</width>
       <heigth>26</heigth>
       <fontname>.AppleSystemUIFont</fontname>
@@ -606,11 +606,6 @@
   </connection>
   <order>
     <hop>
-      <from>Data grid</from>
-      <to>REST client</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>REST client</from>
       <to>JSON input</to>
       <enabled>Y</enabled>
@@ -665,6 +660,21 @@
       <to>Table output 2</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Data grid</from>
+      <to>Add constants 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add constants 2</from>
+      <to>Concat fields 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Concat fields 2</from>
+      <to>REST client</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>REST client</name>
@@ -680,10 +690,10 @@
     <applicationType>TEXT PLAIN</applicationType>
     <method>GET</method>
     <url>http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=09f43af16cfce13f0a13935d499cf033&amp;targetDt=20210717&amp;weekGb=1&amp;itemPerPage=10</url>
-    <urlInField>N</urlInField>
+    <urlInField>Y</urlInField>
     <dynamicMethod>N</dynamicMethod>
     <methodFieldName/>
-    <urlField/>
+    <urlField>ConcatURL</urlField>
     <bodyField/>
     <httpLogin/>
     <httpPassword>Encrypted </httpPassword>
@@ -713,8 +723,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
-      <yloc>112</yloc>
+      <xloc>496</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -742,10 +752,23 @@
         <set_empty_string>N</set_empty_string>
         <field_null_if/>
       </field>
+      <field>
+        <name>targetDate</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
     </fields>
     <data>
       <line>
         <item>1</item>
+        <item>20210717</item>
       </line>
     </data>
     <attributes/>
@@ -757,8 +780,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>112</yloc>
+      <xloc>64</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1048,8 +1071,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>112</yloc>
+      <xloc>624</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1072,6 +1095,18 @@
       <remove>
         <name>result</name>
       </remove>
+      <remove>
+        <name>targetDate</name>
+      </remove>
+      <remove>
+        <name>url1</name>
+      </remove>
+      <remove>
+        <name>url2</name>
+      </remove>
+      <remove>
+        <name>ConcatURL</name>
+      </remove>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1082,8 +1117,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>112</yloc>
+      <xloc>768</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1126,8 +1161,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>624</xloc>
-      <yloc>112</yloc>
+      <xloc>896</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1711,6 +1746,155 @@
     <GUI>
       <xloc>1088</xloc>
       <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add constants 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>url1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=09f43af16cfce13f0a13935d499cf033&amp;targetDt=</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>url2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>&amp;weekGb=1&amp;itemPerPage=10</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>176</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Concat fields 2</name>
+    <type>ConcatFields</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <separator/>
+    <enclosure/>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name/>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>url1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>targetDate</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>url2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <ConcatFields>
+      <targetFieldName>ConcatURL</targetFieldName>
+      <targetFieldLength>0</targetFieldLength>
+      <removeSelectedFields>N</removeSelectedFields>
+    </ConcatFields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
